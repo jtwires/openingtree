@@ -16,12 +16,13 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faList, faCog, faChartBar, faBook } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faList, faCog, faChartBar, faBook, faSearch } from '@fortawesome/free-solid-svg-icons'
 import MovesList from './moves/MovesList'
 import BookMoves from './moves/BookMoves'
 import {trackEvent} from '../app/Analytics'
 import * as Constants from '../app/Constants'
 import ReportControls from './ReportControls'
+import Search from './Search'
 import { Table, TableRow, TableBody, TableCell } from '@material-ui/core'
 
 export default class ControlsContainer extends React.Component {
@@ -142,6 +143,14 @@ export default class ControlsContainer extends React.Component {
           </NavLink>
         </NavItem>
         <NavItem>
+	  <NavLink
+            className={classnames({ active: this.state.activeTab === 'search' })}
+            onClick={() => { this.toggle('search'); }}
+	  >
+	    <FontAwesomeIcon icon={faSearch} /> {this.state.activeTab === 'search'?"Search":""}
+	  </NavLink>
+	</NavItem>
+        <NavItem>
           <NavLink
             className={classnames({ active: this.state.activeTab === 'settings' })}
             onClick={() => { this.toggle('settings'); }}
@@ -208,6 +217,13 @@ export default class ControlsContainer extends React.Component {
             switchToUserTab={this.switchToUserTab.bind(this)}
             isOpen = {this.state.activeTab === "report"}
             showInfo = {this.props.showInfo} reportFooter={this.reportFooter()}/>
+        </TabPane>
+        <TabPane tabId="search">
+        <Search
+          openingGraph={this.props.openingGraph}
+          chessboardHeight={this.props.chessboardHeight}
+          navigateToGame={this.props.navigateToGame}
+        />
         </TabPane>
         <TabPane tabId="settings">
           <Row>
