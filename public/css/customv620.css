@@ -208,6 +208,15 @@
     font-size: 10px;
 }
 
+.searchSettingsIcon {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.searchResultPositionCell {
+    font-size: 13px;
+}
+
 .errorCard {
     margin-top:10px;
 }

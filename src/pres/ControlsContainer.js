@@ -219,11 +219,12 @@ export default class ControlsContainer extends React.Component {
             showInfo = {this.props.showInfo} reportFooter={this.reportFooter()}/>
         </TabPane>
         <TabPane tabId="search">
-        <Search
-          openingGraph={this.props.openingGraph}
-          chessboardHeight={this.props.chessboardHeight}
-          navigateToGame={this.props.navigateToGame}
-        />
+          <Search
+            key={this.props.dataSourceKey}
+            openingGraph={this.props.openingGraph}
+            chessboardHeight={this.props.chessboardHeight}
+            navigateToGame={this.props.navigateToGame}
+          />
         </TabPane>
         <TabPane tabId="settings">
           <Row>

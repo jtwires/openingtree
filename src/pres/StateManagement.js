@@ -158,6 +158,7 @@ function fillArray(arr, len) {
 }
 
 function reset() {
+    this.setState({dataSourceKey: this.state.dataSourceKey + 1})
     this.game = new GameState(this.state.variant)
     this.updateGameState()
 }

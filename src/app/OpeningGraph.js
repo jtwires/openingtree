@@ -1,3 +1,4 @@
+import ChessEcoCodes from 'chess-eco-codes'
 import {simplifiedFen, isDateMoreRecentThan} from './util'
 import * as Constants from './Constants'
 import {chessLogic, rootFen} from '../app/chess/ChessLogic'
@@ -6,6 +7,20 @@ class Game {
     constructor(headers, moves) {
         this.headers = headers
         this.moves = moves
+        this.opening = undefined
+    }
+
+    getOpening() {
+        if (this.opening === undefined) {
+            for (var ply = 1; ply < this.moves.length; ply++) {
+                let opening = ChessEcoCodes(this.moves[ply].sourceFen)
+                if (!opening) {
+                    break
+                }
+                this.opening = opening
+            }
+        }
+        return this.opening
     }
 }
 
@@ -16,11 +31,12 @@ export default class OpeningGraph {
         this.hasMoves = false
         this.variant = variant
     }
+
     setEntries(arrayEntries, pgnStats){
         this.graph = new Graph(arrayEntries, pgnStats)
-        this.games = []
+        // .tree files don't preserve game history
+        this.games = undefined
         this.hasMoves = true
-        this.index = null
     }
 
     clear() {

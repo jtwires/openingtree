@@ -44,11 +44,12 @@ export default class MainContainer extends React.Component {
     addStateManagement(this)
     this.state = {
         resize:0,
-        fen: this.game.getFen(),
-        ply: this.game.getPly(),
-        moves: this.game.getMoves(),
+        fen:this.game.getFen(),
+        ply:this.game.getPly(),
+        moves:this.game.getMoves(),
         gamesProcessed:0,
         openingGraph:new OpeningGraph(selectedVariant),
+        dataSourceKey:0,
         settings:{
           playerName:'',
           orientation:Constants.PLAYER_COLOR_WHITE,
@@ -181,6 +182,7 @@ export default class MainContainer extends React.Component {
               forceFetchBookMoves={this.forceFetchBookMoves.bind(this)}
               highlightArrow={this.highlightArrow.bind(this)}
               chessboardHeight={this.chessboardWidth}
+              dataSourceKey={this.state.dataSourceKey}
             />
           </Col>
         </Row>
