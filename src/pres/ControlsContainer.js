@@ -143,13 +143,13 @@ export default class ControlsContainer extends React.Component {
           </NavLink>
         </NavItem>
         <NavItem>
-	  <NavLink
+          <NavLink
             className={classnames({ active: this.state.activeTab === 'search' })}
             onClick={() => { this.toggle('search'); }}
-	  >
-	    <FontAwesomeIcon icon={faSearch} /> {this.state.activeTab === 'search'?"Search":""}
-	  </NavLink>
-	</NavItem>
+          >
+            <FontAwesomeIcon icon={faSearch} /> {this.state.activeTab === 'search'?"Search":""}
+          </NavLink>
+        </NavItem>
         <NavItem>
           <NavLink
             className={classnames({ active: this.state.activeTab === 'settings' })}
