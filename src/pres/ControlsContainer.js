@@ -22,7 +22,7 @@ import BookMoves from './moves/BookMoves'
 import {trackEvent} from '../app/Analytics'
 import * as Constants from '../app/Constants'
 import ReportControls from './ReportControls'
-import Search from './Search'
+import { Search } from './Search'
 import { Table, TableRow, TableBody, TableCell } from '@material-ui/core'
 
 export default class ControlsContainer extends React.Component {

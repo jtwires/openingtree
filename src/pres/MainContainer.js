@@ -21,8 +21,8 @@ import {
 } from '@material-ui/core'
 
 import * as Constants from '../app/Constants'
+import GameState from '../app/GameState'
 import OpeningGraph from '../app/OpeningGraph'
-import { GameState } from '../app/GameState'
 import cookieManager from '../app/CookieManager'
 import { handleDarkMode } from '../pres/DarkMode';
 import UserProfile, { USER_PROFILE_NEW_USER } from '../app/UserProfile'

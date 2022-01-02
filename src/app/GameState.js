@@ -1,7 +1,7 @@
 import ChessEcoCodes from 'chess-eco-codes'
 import {chessLogic, rootFen} from '../app/chess/ChessLogic'
 
-export class GameState {
+export default class GameState {
     constructor(variant, fen, headers) {
         this.variant = variant
         this.initialFen = fen !== undefined ? fen : rootFen(variant)

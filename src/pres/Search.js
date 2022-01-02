@@ -32,8 +32,8 @@ import {
 import {
     faWrench,
 } from '@fortawesome/free-solid-svg-icons'
-import {GameState} from '../app/GameState'
-import {simplifiedFen} from '../app/util'
+import GameState from '../app/GameState'
+import { simplifiedFen } from '../app/util'
 
 const SHOW_ALL_GAMES = 'show-all-games'
 const SHOW_UNIQUE_POSITIONS = 'show-unique-positions'
@@ -52,7 +52,60 @@ class Position {
     }
 }
 
-export default class Search extends React.Component {
+export class Query {
+    constructor(text) {
+        this.text = text
+        let matches = text
+            .replace(/=/, '')
+            .replace(/[?!]*$/, '')
+            .match(/([pnbrqkPNBRQK])?([a-h]?[1-8]?)(x?-?)([a-h][1-8])([qrbnQRBN])?/)
+        if (!matches) {
+            this.move = undefined
+        } else {
+            this.move = {
+                piece: matches[1],
+                from: matches[2],
+                capture: matches[3].includes('x') ? true : undefined,
+                to: matches[4],
+                promotion: matches[5] ? matches[5].toLowerCase() : undefined,
+                check: text.includes('+') ? true : undefined,
+                mate: text.includes('#') ? true : undefined,
+            }
+            if (!this.move.piece && this.move.capture && this.move.from.length === 1) {
+                this.move.piece = 'p'
+            }
+        }
+    }
+
+    evaluate(parsedMove) {
+        if (this.text === parsedMove.move.san) {
+            return true
+        }
+        if (parsedMove.sourceFen.startsWith(this.text)) {
+            return true
+        }
+        if (this.move !== undefined) {
+            let move = parsedMove.move
+            return (
+                this.move.to === move.to
+                    // `this.move.from` may be a square (e.g., 'b1' in 'Nb1d2')
+                    // or a disambiguator (e.g., 'b' in 'Nbd2')
+                    && (this.move.from === move.from
+                        || (this.move.from.length === 1
+                         && (move.from.startsWith(this.move.from)
+                             || move.from.endsWith(this.move.from))))
+                    && (!this.move.piece || this.move.piece.toLowerCase() === move.piece)
+                    && this.move.promotion === move.promotion
+                    && (this.move.capture === undefined || move.captured !== undefined)
+                    && (this.move.check === undefined || move.san.endsWith('+'))
+                    && (this.move.mate === undefined || move.san.endsWith('#'))
+            )
+        }
+        return false
+    }
+}
+
+export class Search extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -89,7 +142,7 @@ export default class Search extends React.Component {
             scannedGames: 0,
             totalGames: this.props.openingGraph.games.length,
         })
-        setTimeout(() => this.scan(this.state.query, 0))
+        setTimeout(() => this.scan(new Query(this.state.query), 0))
     }
 
     cancel() {
@@ -112,7 +165,7 @@ export default class Search extends React.Component {
             let game = games[idx]
             for (var ply = 0; ply < game.moves.length; ply++) {
                 let move = game.moves[ply]
-                if (this.evaluate(query, move)) {
+                if (query.evaluate(move)) {
                     results.push(new Position(game, ply + 1))
                 }
             }
@@ -127,16 +180,6 @@ export default class Search extends React.Component {
         this.setState({ scannedGames: idx })
 
         setTimeout(() => this.scan(query, idx))
-    }
-
-    evaluate(query, move) {
-        if (query === move.move.san) {
-            return true
-        }
-        if (move.sourceFen.startsWith(query)) {
-            return true
-        }
-        return false
     }
 
     navigate(position) {
