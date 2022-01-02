@@ -262,6 +262,11 @@ export default class Search extends React.Component {
     }
 
     renderResultsGrid() {
+        if (!this.props.isOpen) {
+            // DataGrid complains about the parent container height
+            // when rendered for an inactive TabPane
+            return ''
+        }
         const mkLabel = (position) => {
             if (this.state.settings.mode === SHOW_ALL_GAMES) {
                 let headers = position.game.headers

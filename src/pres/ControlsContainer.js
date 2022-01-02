@@ -221,6 +221,7 @@ export default class ControlsContainer extends React.Component {
         <TabPane tabId="search">
           <Search
             key={this.props.dataSourceKey}
+            isOpen={this.state.activeTab === "search"}
             openingGraph={this.props.openingGraph}
             chessboardHeight={this.props.chessboardHeight}
             navigateToGame={this.props.navigateToGame}
