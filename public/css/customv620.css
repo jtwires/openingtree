@@ -369,10 +369,6 @@ body.dark-theme {
     background-color: #333;
 }
 
-body.dark-theme .MuiDataGrid-overlay {
-    background-color: #333;
-}
-
 body.dark-theme .performanceOverlay th {
     background-color: #444;
 }
@@ -505,4 +501,15 @@ body.dark-theme input.select-search-box__search::placeholder{
 
 body.dark-theme span.MuiChip-label{
     color:#DDD
+}
+
+body.dark-theme .MuiDataGrid-overlay {
+    background-color: #333;
+}
+
+body.dark-theme .MuiDataGrid-columnHeader:focus,
+body.dark-theme .MuiDataGrid-cell:focus,
+body.dark-theme .MuiDataGrid-columnHeader:focus-within,
+body.dark-theme .MuiDataGrid-cell:focus-within {
+    outline: none;
 }
