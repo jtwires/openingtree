@@ -135,7 +135,20 @@ export class Search extends React.Component {
         this.setState({ settings: settings })
     }
 
+    clearResults() {
+        this.setState({
+            results: [],
+            scanning: false,
+            scannedGames: 0,
+            totalGames: 0,
+        })
+    }
+
     search() {
+        if (!this.state.query) {
+            this.clearResults()
+            return
+        }
         this.setState({
             results: [],
             scanning: true,
