@@ -243,24 +243,27 @@ export class Search extends React.Component {
 
     renderQueryInput() {
         // disable autoComplete because the styling doesn't work well in dark mode
+        const message = 'search games for positions (in FEN format) or moves (e.g., Bxh7+)'
         return (
             <TableRow>
                 <TableCell style={{borderBottom: 'none'}}>
-                    <TextField
-                        id='searchTextBox'
-                        className='searchField'
-                        name='search'
-                        label='search query'
-                        margin='dense'
-                        variant='outlined'
-                        autoComplete='off'
-                        fullWidth
-                        onChange={this.updateQuery.bind(this)}
-                        inputProps={{
-                            style: {fontSize: 12},
-                            spellCheck: false,
-                        }}
-                    />
+                    <Tooltip title={message}>
+                        <TextField
+                            id='searchTextBox'
+                            className='searchField'
+                            name='search'
+                            label='search query'
+                            margin='dense'
+                            variant='outlined'
+                            autoComplete='off'
+                            fullWidth
+                            onChange={this.updateQuery.bind(this)}
+                            inputProps={{
+                                style: {fontSize: 12},
+                                spellCheck: false,
+                            }}
+                        />
+                    </Tooltip>
                 </TableCell>
             </TableRow>
         )
@@ -270,23 +273,28 @@ export class Search extends React.Component {
         const mkSearchButton = () => {
             let supported = this.props.openingGraph.games !== undefined
             let disabled = !supported || this.state.scanning
-            let message = supported
-                ? 'search games for positions or moves'
-                : 'search feature not available for .tree files'
-            return (
-                <>
-                    <Tooltip title={message}>
+            var button = (
+                <Button
+                    size='small'
+                    color='primary'
+                    onClick={this.search.bind(this)}
+                    disabled={disabled}
+                >
+                        Search
+                </Button>
+            )
+            if (!supported) {
+                button = (
+                    <Tooltip title='search feature not available for .tree files'>
                         <span>
-                            <Button
-                                size='small'
-                                color='primary'
-                                onClick={this.search.bind(this)}
-                                disabled={disabled}
-                            >
-                                Search
-                            </Button>
+                            {button}
                         </span>
                     </Tooltip>
+                )
+            }
+            return (
+                <>
+                    {button}
                     <FontAwesomeIcon
                         className='searchSettingsIcon'
                         icon={faWrench}
