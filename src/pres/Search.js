@@ -229,6 +229,7 @@ export class Search extends React.Component {
     }
 
     renderQueryInput() {
+        // disable autoComplete because the styling doesn't work well in dark mode
         return (
             <TableRow>
                 <TableCell style={{borderBottom: 'none'}}>
@@ -239,6 +240,7 @@ export class Search extends React.Component {
                         label='search query'
                         margin='dense'
                         variant='outlined'
+                        autoComplete='off'
                         fullWidth
                         onChange={this.updateQuery.bind(this)}
                         inputProps={{
@@ -331,6 +333,7 @@ export class Search extends React.Component {
                 renderCell: (params) => (
                     <Link
                         href="#"
+                        className="searchResultLink"
                         onClick={() => this.navigate(params.value)}>
                         {mkLabel(params.value)}
                     </Link>
